@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel narrow">
+    <h1>Verify Certificate</h1>
+    <p class="muted">Enter the certificate ID printed on the certificate or encoded in the QR code.</p>
+    <form method="POST" class="form">
+        <label>Certificate ID
+            <input name="certificate_id" placeholder="Example: VCERT001" required>
+        </label>
+        <button class="button primary" type="submit">Verify</button>
+    </form>
+</section>
+{% endblock %}

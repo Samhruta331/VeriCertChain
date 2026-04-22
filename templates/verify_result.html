@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel result">
+    {% if status == "valid" %}
+        <h1 class="success">Certificate is Valid</h1>
+        <p class="muted">The stored hash and current certificate hash match.</p>
+    {% elif status == "revoked" %}
+        <h1 class="warning">Certificate is Revoked</h1>
+        <p class="muted">This certificate was issued earlier but revoked by the institution.</p>
+    {% elif status == "duplicate" %}
+        <h1 class="warning">Duplicate Certificate Detected</h1>
+        <p class="muted">This file matches an already issued certificate.</p>
+    {% elif status == "tampered" %}
+        <h1 class="danger-text">Certificate is Tampered</h1>
+        <p class="muted">The current certificate hash does not match the stored hash.</p>
+    {% else %}
+        <h1 class="danger-text">Certificate Not Found</h1>
+        <p class="muted">No matching certificate record exists for {{ certificate_id }}.</p>
+    {% endif %}
+
+    {% if record %}
+    <div class="details">
+        <p><strong>Certificate ID:</strong> {{ record.certificate_id }}</p>
+        <p><strong>Current Version:</strong> v{{ record.version }}</p>
+        <p><strong>Student:</strong> {{ record.student_name }}</p>
+        <p><strong>Course:</strong> {{ record.course_name }}</p>
+        <p><strong>Issuer:</strong> {{ record.issuer_name }}</p>
+        <p><strong>Shard:</strong> {{ record.shard_id }} - {{ record.shard_reason }}</p>
+        <p><strong>Status:</strong> <span class="badge {{ record.status }}">{{ record.status }}</span></p>
+        {% if record.revoked_at %}
+        <p><strong>Revoked At:</strong> {{ record.revoked_at }}</p>
+        <p><strong>Revocation Reason:</strong> {{ record.revocation_reason }}</p>
+        {% endif %}
+        <p><strong>Stored Hash:</strong> <span class="mono break">{{ record.certificate_hash }}</span></p>
+        {% if current_hash %}<p><strong>Current Hash:</strong> <span class="mono break">{{ current_hash }}</span></p>{% endif %}
+    </div>
+    <h2>Version History</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Version</th>
+                    <th>Status</th>
+                    <th>CID</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for version in record.versions %}
+                <tr>
+                    <td>v{{ version.version }}</td>
+                    <td><span class="badge {{ version.status }}">{{ version.status }}</span></td>
+                    <td class="mono">{{ version.cid }}</td>
+                    <td>{{ version.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

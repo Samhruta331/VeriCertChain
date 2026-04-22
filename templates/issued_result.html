@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel result">
+    <h1>Certificate Secured</h1>
+    <p class="muted">The certificate hash, QR code and blockchain block were generated.</p>
+    <div class="grid-two">
+        <div>
+            <p><strong>Certificate ID:</strong> {{ record.certificate_id }}</p>
+            <p><strong>Version:</strong> v{{ record.version }}</p>
+            <p><strong>Student:</strong> {{ record.student_name }}</p>
+            <p><strong>Course:</strong> {{ record.course_name }}</p>
+            <p><strong>Shard:</strong> {{ record.shard_id }} - {{ record.shard_reason }}</p>
+            <p><strong>Status:</strong> <span class="badge {{ record.status }}">{{ record.status }}</span></p>
+            <p><strong>CID:</strong> <span class="mono">{{ record.cid }}</span></p>
+            <p><strong>Hash:</strong> <span class="mono break">{{ record.certificate_hash }}</span></p>
+            <p><strong>Block Hash:</strong> <span class="mono break">{{ block.block_hash }}</span></p>
+        </div>
+        <div class="qr-box">
+            <img src="{{ url_for('static', filename=record.qr_code) }}" alt="Certificate QR code">
+            <a class="button" href="{{ url_for('verify_by_id', certificate_id=record.certificate_id) }}">Verify Now</a>
+        </div>
+    </div>
+    <h2>Version History</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Version</th>
+                    <th>Status</th>
+                    <th>CID</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for version in record.versions %}
+                <tr>
+                    <td>v{{ version.version }}</td>
+                    <td><span class="badge {{ version.status }}">{{ version.status }}</span></td>
+                    <td class="mono">{{ version.cid }}</td>
+                    <td>{{ version.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

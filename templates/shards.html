@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+    <h1>Shard Coordinator</h1>
+    <p class="muted">Certificates are assigned to logical shards using metadata hashing with load balancing.</p>
+    <div class="stats">
+        {% for shard, load in loads.items() %}
+        <div><strong>{{ load }}</strong><span>{{ shard }} Certificates</span></div>
+        {% endfor %}
+    </div>
+    <div class="blocks">
+        {% for shard, records in grouped.items() %}
+        <article class="block">
+            <h2>{{ shard }}</h2>
+            {% for record in records %}
+            <p>
+                <strong>{{ record.certificate_id }}</strong>
+                v{{ record.version }} -
+                {{ record.student_name }} -
+                <span class="badge {{ record.status }}">{{ record.status }}</span>
+            </p>
+            <p class="muted">{{ record.shard_reason }}</p>
+            {% else %}
+            <p class="muted">No certificates assigned.</p>
+            {% endfor %}
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

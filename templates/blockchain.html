@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+    <h1>Blockchain Ledger</h1>
+    <p class="muted">Each certificate issue creates a new block linked to the previous block hash.</p>
+    <div class="blocks">
+        {% for block in chain %}
+        <article class="block">
+            <h2>Block {{ block.index }}</h2>
+            <p><strong>Event:</strong> {{ block.event or "ISSUE" }}</p>
+            <p><strong>Certificate ID:</strong> {{ block.certificate_id }}</p>
+            <p><strong>Version:</strong> v{{ block.version or 1 }}</p>
+            <p><strong>Shard:</strong> {{ block.shard_id or "Shard 1" }}</p>
+            <p><strong>Student:</strong> {{ block.student_name }}</p>
+            <p><strong>Status:</strong> <span class="badge {{ block.status }}">{{ block.status }}</span></p>
+            <p><strong>Previous Hash:</strong> <span class="mono break">{{ block.previous_hash }}</span></p>
+            <p><strong>Block Hash:</strong> <span class="mono break">{{ block.block_hash }}</span></p>
+        </article>
+        {% else %}
+        <p>No blocks available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

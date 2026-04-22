@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+    <h1>Implemented Algorithms</h1>
+    <div class="blocks">
+        <article class="block">
+            <h2>SHA-256 Hashing</h2>
+            <p>Every uploaded certificate is converted into a SHA-256 digest. Verification recalculates the digest and detects tampering when hashes differ.</p>
+        </article>
+        <article class="block">
+            <h2>Shard Allocation</h2>
+            <p>The shard coordinator hashes certificate metadata such as issuer, course and certificate ID. It assigns the record to one of three logical shards and applies load balancing when one shard becomes heavier.</p>
+        </article>
+        <article class="block">
+            <h2>Corda Notary Simulation</h2>
+            <p>The application prevents duplicate active certificate files through hash consistency checks and records every issue/revoke transaction as a unique ledger block.</p>
+        </article>
+        <article class="block">
+            <h2>Metadata Versioning</h2>
+            <p>Reissuing the same certificate ID creates a new version while retaining older version metadata for auditing.</p>
+        </article>
+        <article class="block">
+            <h2>Reason-Tagged Revocation</h2>
+            <p>Revocation changes the certificate status, stores revocation time and reason, creates a revoke block, and updates verification output.</p>
+        </article>
+        <article class="block">
+            <h2>QR-Based Verification</h2>
+            <p>Each certificate receives a QR code that opens the verification route for that certificate ID.</p>
+        </article>
+        <article class="block">
+            <h2>Off-Chain Storage Simulation</h2>
+            <p>The certificate file is stored outside the ledger. The app stores only hash, CID-like reference and metadata in JSON ledger records.</p>
+        </article>
+        <article class="block">
+            <h2>Fraud Detection</h2>
+            <p>The app flags duplicate certificate hashes and tampered files using hash comparison during issue and verification.</p>
+        </article>
+    </div>
+</section>
+{% endblock %}

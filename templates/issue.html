@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel narrow">
+    <h1>Issue Certificate</h1>
+    <p class="muted">Upload a certificate and create its blockchain verification record.</p>
+    {% if error %}<p class="alert">{{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" class="form">
+        <label>Certificate ID
+            <input name="certificate_id" placeholder="Example: VCERT001">
+        </label>
+        <label>Student Name
+            <input name="student_name" required>
+        </label>
+        <label>Course Name
+            <input name="course_name" required>
+        </label>
+        <label>Issue Date
+            <input type="date" name="issue_date" required>
+        </label>
+        <label>Issuing Institution
+            <input name="issuer_name" required>
+        </label>
+        <label>Certificate File
+            <input type="file" name="certificate_file" required>
+        </label>
+        <button class="button primary" type="submit">Generate Secure Record</button>
+    </form>
+</section>
+{% endblock %}

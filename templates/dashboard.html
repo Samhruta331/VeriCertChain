@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="dashboard-hero">
+    <div class="hero-copy">
+        <p class="eyebrow">VeriCertChain Control Center</p>
+        <h1>Issue, verify, revoke and monitor academic credentials from one secure dashboard.</h1>
+        <p class="hero-note">Certificate files stay off-chain, while trusted metadata, hashes, versions and status updates are recorded for tamper-evident verification.</p>
+        <div class="hero-actions">
+            <a class="button primary pulse" href="{{ url_for('issue_certificate') }}">Issue Certificate</a>
+            <a class="button glass" href="{{ url_for('verify') }}">Verify Certificate</a>
+            <a class="button glass" href="{{ url_for('blockchain') }}">View Ledger</a>
+        </div>
+    </div>
+    <div class="hero-orbit" aria-hidden="true">
+        <div class="orbit-ring ring-one"></div>
+        <div class="orbit-ring ring-two"></div>
+        <div class="orbit-core">
+            <span>SHA-256</span>
+            <strong>QR</strong>
+            <span>Corda</span>
+        </div>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="stat-card">
+        <span class="stat-label">Total Certificates</span>
+        <strong>{{ total }}</strong>
+        <p>Records created</p>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Valid</span>
+        <strong>{{ valid_count }}</strong>
+        <p>Ready to verify</p>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Revoked</span>
+        <strong>{{ revoked_count }}</strong>
+        <p>Blocked from use</p>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Ledger Blocks</span>
+        <strong>{{ block_count }}</strong>
+        <p>Issue/revoke events</p>
+    </div>
+</section>
+
+<section class="quick-actions">
+    <a class="action-tile" href="{{ url_for('issue_certificate') }}">
+        <span class="tile-icon">+</span>
+        <strong>Issue New Certificate</strong>
+        <small>Create hash, CID, QR and ledger record</small>
+    </a>
+    <a class="action-tile" href="{{ url_for('verify') }}">
+        <span class="tile-icon">?</span>
+        <strong>Verify Authenticity</strong>
+        <small>Check valid, revoked, duplicate or tampered</small>
+    </a>
+    <a class="action-tile" href="{{ url_for('audit_logs') }}">
+        <span class="tile-icon">i</span>
+        <strong>Review Audit Trail</strong>
+        <small>Track issue, verify and revoke actions</small>
+    </a>
+</section>
+
+<section class="dashboard-grid">
+    <div class="panel records-panel">
+        <div class="panel-title">
+            <div>
+                <h2>Certificate Records</h2>
+                <p class="muted">Latest certificate status and actions.</p>
+            </div>
+            <a href="{{ url_for('verify') }}">Verify certificate</a>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Version</th>
+                        <th>Status</th>
+                        <th>CID</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for certificate_id, item in certificates.items() %}
+                    <tr>
+                        <td>{{ certificate_id }}</td>
+                        <td>{{ item.student_name }}</td>
+                        <td>{{ item.course_name }}</td>
+                        <td>v{{ item.version }}</td>
+                        <td><span class="badge {{ item.status }}">{{ item.status }}</span></td>
+                        <td class="mono">{{ item.cid }}</td>
+                        <td>
+                            <a class="small-link" href="{{ url_for('verify_by_id', certificate_id=certificate_id) }}">View</a>
+                            {% if item.status != "revoked" %}
+                            <form class="inline" method="POST" action="{{ url_for('revoke', certificate_id=certificate_id) }}">
+                                <input type="hidden" name="reason" value="Revoked by institution">
+                                <button class="danger" type="submit">Revoke</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="7">No certificates issued yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <aside class="panel activity-panel">
+        <div class="panel-title">
+            <div>
+                <h2>Recent Activity</h2>
+                <p class="muted">Live monitoring summary.</p>
+            </div>
+        </div>
+        <div class="timeline">
+            {% for log in logs|reverse %}
+            <div class="timeline-item">
+                <span></span>
+                <div>
+                    <strong>{{ log.action }}</strong>
+                    <p>{{ log.message }}</p>
+                    <small>{{ log.time }}</small>
+                </div>
+            </div>
+            {% else %}
+            <p class="muted">No recent activity yet.</p>
+            {% endfor %}
+        </div>
+    </aside>
+</section>
+{% endblock %}
