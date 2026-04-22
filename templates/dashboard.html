@@ -5,6 +5,11 @@
         <p class="eyebrow">VeriCertChain Control Center</p>
         <h1>Issue, verify, revoke and monitor academic credentials from one secure dashboard.</h1>
         <p class="hero-note">Certificate files stay off-chain, while trusted metadata, hashes, versions and status updates are recorded for tamper-evident verification.</p>
+        <div class="trust-strip">
+            <span>Off-chain file storage</span>
+            <span>Corda metadata layer</span>
+            <span>QR based verification</span>
+        </div>
         <div class="hero-actions">
             <a class="button primary pulse" href="{{ url_for('issue_certificate') }}">Issue Certificate</a>
             <a class="button glass" href="{{ url_for('verify') }}">Verify Certificate</a>
@@ -14,6 +19,7 @@
     <div class="hero-orbit" aria-hidden="true">
         <div class="orbit-ring ring-one"></div>
         <div class="orbit-ring ring-two"></div>
+        <div class="orbit-ring ring-three"></div>
         <div class="orbit-core">
             <span>SHA-256</span>
             <strong>QR</strong>
@@ -105,7 +111,15 @@
                         </td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="7">No certificates issued yet.</td></tr>
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <strong>No certificates issued yet</strong>
+                                <span>Start your demo by issuing the first certificate record.</span>
+                                <a class="button primary" href="{{ url_for('issue_certificate') }}">Issue First Certificate</a>
+                            </div>
+                        </td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -132,6 +146,13 @@
             {% else %}
             <p class="muted">No recent activity yet.</p>
             {% endfor %}
+        </div>
+        <div class="security-stack">
+            <h3>Security Pipeline</h3>
+            <div><span>1</span> Upload certificate</div>
+            <div><span>2</span> Generate SHA-256 hash</div>
+            <div><span>3</span> Store CID and metadata</div>
+            <div><span>4</span> Verify status by QR or ID</div>
         </div>
     </aside>
 </section>

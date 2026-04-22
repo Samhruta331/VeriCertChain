@@ -99,6 +99,7 @@ nav a:hover {
     box-shadow: var(--shadow);
     overflow: hidden;
     position: relative;
+    animation: fadeUp 520ms ease both;
 }
 
 .dashboard-hero::after {
@@ -135,6 +136,26 @@ nav a:hover {
     color: rgba(255, 255, 255, 0.78);
     line-height: 1.6;
     margin: 0 0 24px;
+}
+
+.trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.trust-strip span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 6px 10px;
+    color: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
 }
 
 .hero-actions {
@@ -175,6 +196,11 @@ nav a:hover {
     inset: 42px;
     animation-duration: 12s;
     animation-direction: reverse;
+}
+
+.ring-three {
+    inset: 78px;
+    animation-duration: 8s;
 }
 
 .orbit-ring::before,
@@ -240,6 +266,19 @@ nav a:hover {
     overflow: hidden;
     box-shadow: 0 12px 28px rgba(35, 49, 74, 0.08);
     transition: transform 180ms ease, box-shadow 180ms ease;
+    animation: fadeUp 520ms ease both;
+}
+
+.stats div:nth-child(2) {
+    animation-delay: 70ms;
+}
+
+.stats div:nth-child(3) {
+    animation-delay: 140ms;
+}
+
+.stats div:nth-child(4) {
+    animation-delay: 210ms;
 }
 
 .stats div:hover {
@@ -313,6 +352,15 @@ nav a:hover {
     text-decoration: none;
     box-shadow: 0 10px 26px rgba(35, 49, 74, 0.08);
     transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    animation: fadeUp 520ms ease both;
+}
+
+.action-tile:nth-child(2) {
+    animation-delay: 80ms;
+}
+
+.action-tile:nth-child(3) {
+    animation-delay: 160ms;
 }
 
 .action-tile:hover {
@@ -359,6 +407,7 @@ nav a:hover {
     padding: 24px;
     margin-bottom: 24px;
     box-shadow: 0 12px 30px rgba(35, 49, 74, 0.07);
+    animation: fadeUp 520ms ease both;
 }
 
 .narrow {
@@ -386,6 +435,14 @@ nav a:hover {
 table {
     width: 100%;
     border-collapse: collapse;
+}
+
+tbody tr {
+    transition: background 160ms ease;
+}
+
+tbody tr:hover {
+    background: #f8fbff;
 }
 
 th,
@@ -570,6 +627,53 @@ button:hover {
     color: #8b98aa;
 }
 
+.security-stack {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+.security-stack h3 {
+    margin: 0 0 12px;
+}
+
+.security-stack div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.security-stack span {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex: 0 0 26px;
+    border-radius: 50%;
+    background: #eaf0ff;
+    color: var(--primary);
+    font-size: 13px;
+}
+
+.empty-state {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    padding: 34px 16px;
+    text-align: center;
+}
+
+.empty-state strong {
+    font-size: 20px;
+}
+
+.empty-state span {
+    color: var(--muted);
+}
+
 @keyframes rotateRing {
     from {
         transform: rotate(0deg);
@@ -586,6 +690,17 @@ button:hover {
     }
     50% {
         box-shadow: 0 0 0 10px rgba(36, 99, 235, 0);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
